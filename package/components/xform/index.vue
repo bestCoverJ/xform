@@ -97,8 +97,14 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script lang="ts">
+import { defineComponent } from "vue";
+export default defineComponent({
+  name: "xForm",
+});
+</script>
+<script lang="ts" setup>
+import { ref, watch } from "vue";
 const formRef = ref();
 const props = defineProps({
   formOption: {

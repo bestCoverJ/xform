@@ -18,7 +18,7 @@ export default defineConfig(({ command, mode }) => {
     build: {
       // outDir: "lib", //输出文件名称
       lib: {
-        entry: join(__dirname, "./package/index.js"), //指定组件编译入口文件
+        entry: join(__dirname, "./package/index.ts"), //指定组件编译入口文件
         name: "xform",
         fileName: (format) => `xform.${format}.js`, // 打包后的文件名
       }, //库编译模式配置
@@ -28,7 +28,7 @@ export default defineConfig(({ command, mode }) => {
         output: {
           // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
           globals: {
-            vue: "Vue",
+            vue: "vue",
             "element-plus": "element-plus",
           },
         },
