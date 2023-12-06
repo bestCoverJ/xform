@@ -13,24 +13,18 @@
         :prop="formItem.key"
       >
         <el-input
-          v-if="formItem.type === 'input'"
+          v-if="formItem.type === 'input' || formItem.type === 'textarea'"
+          :type="formItem.type"
           v-model="formData[formItem.key]"
-          :placeholder="formItem.placeholder"
-        ></el-input>
-        <el-input
-          v-if="formItem.type === 'textarea'"
-          type="textarea"
-          v-model="formData[formItem.key]"
-          :placeholder="formItem.placeholder"
-          :row="formItem.option.row || 2"
+          :placeholder="formItem?.placeholder"
         ></el-input>
         <el-select
           v-if="formItem.type === 'select'"
           v-model="formData[formItem.key]"
-          :placeholder="formItem.placeholder"
-          :filterable="formItem.option.filterable || false"
-          :clearable="formItem.option.clearable || true"
-          :multiple="formItem.option.multiple || false"
+          :placeholder="formItem?.placeholder"
+          :filterable="formItem.option?.filterable || false"
+          :clearable="formItem.option?.clearable || true"
+          :multiple="formItem.option?.multiple || false"
           collapse-tags
         >
           <el-option
@@ -41,51 +35,27 @@
           ></el-option>
         </el-select>
         <el-date-picker
-          v-if="formItem.type === 'date'"
+          v-if="
+            formItem.type === 'date' ||
+            formItem.type === 'datetime' ||
+            formItem.type === 'daterange'
+          "
           v-model="formData[formItem.key]"
           :type="formItem.type"
-          :placeholder="formItem.placeholder"
-          :disabled-date="formItem.option.disabledDate"
-          :default-value="formItem.option.defaultValue"
-          :format="formItem.option.format"
-          :value-format="formItem.option.valueFormat"
-        ></el-date-picker>
-        <el-date-picker
-          v-if="formItem.type === 'datetime'"
-          v-model="formData[formItem.key]"
-          :type="formItem.type"
-          :placeholder="formItem.placeholder"
-          :disabled-date="formItem.option.disabledDate"
-          :default-value="formItem.option.defaultValue"
-          :format="formItem.option.format"
-          :value-format="formItem.option.valueFormat"
-        ></el-date-picker>
-        <el-date-picker
-          v-if="formItem.type === 'daterange'"
-          v-model="formData[formItem.key]"
-          :type="formItem.type"
-          :placeholder="formItem.placeholder"
-          :disabled-date="formItem.option.disabledDate"
-          :default-value="formItem.option.defaultValue"
-          :start-placeholder="formItem.option.startPlaceholder || '开始时间'"
-          :end-placeholder="formItem.option.endPlaceholder || '结束时间'"
-          :format="formItem.option.format"
-          :value-format="formItem.option.valueFormat"
+          :placeholder="formItem?.placeholder"
+          :disabled-date="formItem.option?.disabledDate"
+          :default-value="formItem.option?.defaultValue"
+          :format="formItem.option?.format"
+          :value-format="formItem.option?.valueFormat"
         ></el-date-picker>
         <el-button
-          type="primary"
-          v-if="formItem.type === 'submit'"
-          @click="submitForm"
-          :icon="formItem.icon"
-          :disabled="formItem.option?.disabled"
-          :loading="formItem.option?.loading"
-        >
-          {{ formItem.text }}
-        </el-button>
-        <el-button
+          v-if="
+            formItem.type === 'button' ||
+            formItem.type === 'submit' ||
+            formItem.type === 'reset'
+          "
           :type="formItem.option?.type"
-          v-if="formItem.type === 'button'"
-          @click="formItem.option?.event"
+          @click="onButtonClick(formItem.option?.type, formItem.option?.event)"
           :icon="formItem.icon"
           :disabled="formItem.option?.disabled"
           :loading="formItem.option?.loading"
@@ -100,20 +70,21 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "xForm",
+  name: "x-form",
 });
 </script>
 <script lang="ts" setup>
+import type { FormInstance, FormRules } from "element-plus";
+import type { IformOption } from "./type";
 import { ref, watch } from "vue";
-const formRef = ref();
-const props = defineProps({
-  formOption: {
-    type: Object,
-    default: () => {},
-    required: true,
-  },
-});
 const formData = ref({});
+
+interface PrposType {
+  formOption: IformOption;
+}
+const props = defineProps<PrposType>();
+
+const formRef = ref<FormInstance>();
 const submitForm = async () => {
   if (!formRef.value) return;
   await formRef.value.validate((vaild, fields) => {
@@ -121,6 +92,25 @@ const submitForm = async () => {
       emit("submitForm", formData.value);
     }
   });
+};
+const resetForm = () => {
+  if (!formRef.value) return;
+  formRef.value.resetFields();
+};
+
+const onButtonClick = (
+  type: string | undefined,
+  event: Function | undefined
+) => {
+  if (type === "submit") {
+    submitForm();
+  } else if (type === "reset") {
+    resetForm();
+  } else {
+    if (event) {
+      event();
+    }
+  }
 };
 
 watch(

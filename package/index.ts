@@ -1,7 +1,7 @@
 import { App } from "vue";
-import BaseForm from "./components/xform";
+import xForm from "./components/xform";
 
-const components = [BaseForm];
+const components = [xForm];
 
 const install = (app: App) => {
   // 注册所有组件

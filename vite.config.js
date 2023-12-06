@@ -34,5 +34,8 @@ export default defineConfig(({ command, mode }) => {
         },
       }, // rollup打包配置
     },
+    server: {
+      port: '8080'
+    }
   };
 });

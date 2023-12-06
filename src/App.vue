@@ -14,7 +14,7 @@ const formOption = {
 
 <template>
   <div style="height: 120px; width: 120px">
-    <xForm :form-option="formOption"></xForm>
+    <x-form :form-option="formOption"></x-form>
   </div>
 </template>
 
