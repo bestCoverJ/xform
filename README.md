@@ -51,14 +51,14 @@ app.mount('#app')
 ### DataForm 示例
 ```vue
 <template>
-  <x-data-form :config="formConfig" @submit="handleSubmit" />
+  <x-data-form :form-option="formConfig" @submit="handleSubmit" />
 </template>
 
 <script setup>
 import { ref } from 'vue'
 
 const formConfig = ref({
-  fields: [
+  columns: [
     { label: '用户名', prop: 'username', type: 'input', required: true },
     { label: '密码', prop: 'password', type: 'password', required: true },
     { label: '角色', prop: 'role', type: 'select', options: [
@@ -71,7 +71,8 @@ const formConfig = ref({
 const handleSubmit = (formData) => {
   console.log('表单提交数据:', formData)
 }
-</script>```
+</script>
+```
 
 ### BaseCRUD 示例
 ```vue
@@ -154,7 +155,8 @@ const fetchApi = {
   u: '/api/update',
   d: '/api/delete'
 }
-</script>```
+</script>
+```
 
 ### DataTable 示例
 ```vue
@@ -188,7 +190,8 @@ const handlePageChange = (page) => {
   console.log('当前页码:', page)
   // 这里可以调用API获取新页数据
 }
-</script>```
+</script>
+```
 
 ### useFetch 示例
 ```vue
@@ -212,7 +215,8 @@ const fetchData = async () => {
         console.error('请求出错:', e)
     }
 }
-</script>```
+</script>
+```
 
 ## 推荐IDE设置
 
