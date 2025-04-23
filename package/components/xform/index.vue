@@ -69,19 +69,23 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+
 export default defineComponent({
   name: "x-form",
 });
 </script>
+
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from "element-plus";
 import type { IformOption } from "./type";
 import { ref, watch } from "vue";
+
 const formData = ref({});
 
 interface PrposType {
   formOption: IformOption;
 }
+
 const props = defineProps<PrposType>();
 
 const formRef = ref<FormInstance>();
@@ -100,7 +104,7 @@ const resetForm = () => {
 
 const onButtonClick = (
   type: string | undefined,
-  event: Function | undefined
+  event: Function | undefined,
 ) => {
   if (type === "submit") {
     submitForm();
@@ -118,7 +122,7 @@ watch(
   (newVal) => {
     emit("changeForm", newVal);
   },
-  { deep: true }
+  { deep: true },
 );
 
 const emit = defineEmits(["submitForm", "changeForm"]);

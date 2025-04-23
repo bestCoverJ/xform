@@ -1,13 +1,24 @@
 import { defineConfig } from "vite";
 import path, { join } from "path";
 import vue from "@vitejs/plugin-vue";
+import vueJsx from "@vitejs/plugin-vue-jsx";
+import Unocss from 'unocss/vite'
+import { presetUno } from 'unocss'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
   const isBuild = command == "build";
   return {
     publicPath: "/",
-    plugins: [vue()],
+    plugins: [
+      vue(),
+      vueJsx(),
+      Unocss({
+        presets: [
+          presetUno(),
+        ],
+      })
+    ],
     // 设置别名
     resolve: {
       alias: {
